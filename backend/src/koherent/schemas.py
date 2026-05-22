@@ -31,3 +31,15 @@ class StudentSession(BaseModel):
     class_id: uuid.UUID
     display_name: str
     session_token: str
+
+
+class LectureCreate(BaseModel):
+    title: str | None = Field(default=None, max_length=200)
+
+
+class LectureRead(BaseModel):
+    id: uuid.UUID
+    class_id: uuid.UUID
+    title: str | None
+    started_at: datetime
+    ended_at: datetime | None
