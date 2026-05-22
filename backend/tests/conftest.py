@@ -2,12 +2,12 @@ from collections.abc import Generator
 
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, event
 from sqlalchemy.orm import Session, sessionmaker
 
 from koherent.config import settings
 from koherent.db import Base
-from koherent.deps import get_db  # created in Task 5
+from koherent.deps import get_db
 from koherent.main import app
 
 
@@ -22,10 +22,24 @@ def _engine():
 
 @pytest.fixture()
 def db(_engine) -> Generator[Session, None, None]:
+    """Per-test isolated session.
+
+    Uses the SQLAlchemy "join an external transaction" pattern: the outer
+    transaction is rolled back at teardown, and any `session.commit()` inside
+    a route handler releases a SAVEPOINT (started by `begin_nested`) rather
+    than committing to the test DB.
+    """
     connection = _engine.connect()
     transaction = connection.begin()
-    TestSession = sessionmaker(bind=connection, autoflush=False, autocommit=False, future=True)
-    session = TestSession()
+    session = Session(bind=connection, autoflush=False, autocommit=False, future=True)
+    nested = connection.begin_nested()
+
+    @event.listens_for(session, "after_transaction_end")
+    def _restart_savepoint(sess, trans):
+        nonlocal nested
+        if trans.nested and not trans._parent.nested:
+            nested = connection.begin_nested()
+
     try:
         yield session
     finally:
