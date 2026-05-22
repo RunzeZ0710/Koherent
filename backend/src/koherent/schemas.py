@@ -57,3 +57,13 @@ class NoteRead(BaseModel):
     content: str
     client_timestamp_ms: int
     created_at: datetime
+
+
+class AudioRecordingRead(BaseModel):
+    id: uuid.UUID
+    lecture_id: uuid.UUID
+    uploaded_by_student_id: uuid.UUID | None
+    file_path: str
+    mime_type: str
+    size_bytes: int
+    created_at: datetime

@@ -1,13 +1,22 @@
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 
 from koherent.deps import get_current_student, get_db
-from koherent.models import Lecture, Note, Student
-from koherent.schemas import LectureCreate, LectureRead, NoteCreate, NoteRead
+from koherent.models import AudioRecording, Lecture, Note, Student
+from koherent.schemas import (
+    AudioRecordingRead,
+    LectureCreate,
+    LectureRead,
+    NoteCreate,
+    NoteRead,
+)
+from koherent.storage import save_audio
 
 router = APIRouter(prefix="/lectures", tags=["lectures"])
+
+_ALLOWED_AUDIO_MIME_PREFIXES = ("audio/",)
 
 
 def _load_lecture_for_student(lecture_id: uuid.UUID, student: Student, db: Session) -> Lecture:
@@ -54,3 +63,37 @@ def append_note(
     db.commit()
     db.refresh(note)
     return note
+
+
+@router.post(
+    "/{lecture_id}/audio",
+    response_model=AudioRecordingRead,
+    status_code=status.HTTP_201_CREATED,
+)
+def upload_audio(
+    lecture_id: uuid.UUID,
+    file: UploadFile = File(...),
+    current: Student = Depends(get_current_student),
+    db: Session = Depends(get_db),
+) -> AudioRecording:
+    lecture = _load_lecture_for_student(lecture_id, current, db)
+
+    mime = file.content_type or "application/octet-stream"
+    if not any(mime.startswith(p) for p in _ALLOWED_AUDIO_MIME_PREFIXES):
+        raise HTTPException(status_code=415, detail=f"Unsupported media type: {mime}")
+
+    content = file.file.read()
+    suffix = ".webm" if "webm" in mime else ".bin"
+    relative_path = save_audio(content, suffix=suffix)
+
+    recording = AudioRecording(
+        lecture_id=lecture.id,
+        uploaded_by_student_id=current.id,
+        file_path=relative_path,
+        mime_type=mime,
+        size_bytes=len(content),
+    )
+    db.add(recording)
+    db.commit()
+    db.refresh(recording)
+    return recording
