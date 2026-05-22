@@ -59,7 +59,7 @@ cd backend && uv run uvicorn koherent.main:app --reload --port 8000
 cd frontend && pnpm dev
 ```
 
-Open http://localhost:3000.
+Open http://localhost:3002.
 
 ### Tests
 
