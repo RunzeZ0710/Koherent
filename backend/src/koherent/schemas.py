@@ -67,3 +67,8 @@ class AudioRecordingRead(BaseModel):
     mime_type: str
     size_bytes: int
     created_at: datetime
+
+
+class LectureStatus(LectureRead):
+    my_notes_count: int
+    has_audio: bool

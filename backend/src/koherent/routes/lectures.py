@@ -1,6 +1,7 @@
 import uuid
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from koherent.deps import get_current_student, get_db
@@ -9,6 +10,7 @@ from koherent.schemas import (
     AudioRecordingRead,
     LectureCreate,
     LectureRead,
+    LectureStatus,
     NoteCreate,
     NoteRead,
 )
@@ -97,3 +99,32 @@ def upload_audio(
     db.commit()
     db.refresh(recording)
     return recording
+
+
+@router.get("/{lecture_id}", response_model=LectureStatus)
+def get_lecture(
+    lecture_id: uuid.UUID,
+    current: Student = Depends(get_current_student),
+    db: Session = Depends(get_db),
+) -> LectureStatus:
+    lecture = _load_lecture_for_student(lecture_id, current, db)
+
+    my_notes_count = db.scalar(
+        select(func.count(Note.id)).where(
+            Note.lecture_id == lecture.id, Note.student_id == current.id
+        )
+    ) or 0
+    has_audio = bool(
+        db.scalar(
+            select(func.count(AudioRecording.id)).where(AudioRecording.lecture_id == lecture.id)
+        )
+    )
+    return LectureStatus(
+        id=lecture.id,
+        class_id=lecture.class_id,
+        title=lecture.title,
+        started_at=lecture.started_at,
+        ended_at=lecture.ended_at,
+        my_notes_count=my_notes_count,
+        has_audio=has_audio,
+    )
