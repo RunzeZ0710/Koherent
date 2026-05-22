@@ -43,3 +43,17 @@ class LectureRead(BaseModel):
     title: str | None
     started_at: datetime
     ended_at: datetime | None
+
+
+class NoteCreate(BaseModel):
+    content: str = Field(min_length=1)
+    client_timestamp_ms: int = Field(ge=0)
+
+
+class NoteRead(BaseModel):
+    id: uuid.UUID
+    lecture_id: uuid.UUID
+    student_id: uuid.UUID
+    content: str
+    client_timestamp_ms: int
+    created_at: datetime
