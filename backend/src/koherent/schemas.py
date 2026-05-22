@@ -19,3 +19,15 @@ class ClassRead(BaseModel):
 
 class ClassCreated(ClassRead):
     owner_token: str
+
+
+class JoinRequest(BaseModel):
+    join_code: str = Field(min_length=1, max_length=16)
+    display_name: str = Field(min_length=1, max_length=100)
+
+
+class StudentSession(BaseModel):
+    student_id: uuid.UUID
+    class_id: uuid.UUID
+    display_name: str
+    session_token: str
