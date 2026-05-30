@@ -122,7 +122,7 @@ Koherent/
 - Create: `frontend/` (directory)
 - Create: `backend/storage/audio/.gitkeep`
 
-- [ ] **Step 1: Create the root `.gitignore`**
+- [x] **Step 1: Create the root `.gitignore`**
 
 Create `.gitignore`:
 
@@ -161,7 +161,7 @@ backend/storage/audio/*
 .pgdata/
 ```
 
-- [ ] **Step 2: Create `docker-compose.yml`**
+- [x] **Step 2: Create `docker-compose.yml`**
 
 ```yaml
 services:
@@ -184,7 +184,7 @@ services:
       retries: 10
 ```
 
-- [ ] **Step 3: Create directories and placeholder**
+- [x] **Step 3: Create directories and placeholder**
 
 Run:
 ```bash
@@ -192,7 +192,7 @@ mkdir -p backend/src/koherent/routes backend/tests backend/alembic/versions back
 touch backend/storage/audio/.gitkeep
 ```
 
-- [ ] **Step 4: Start Postgres and verify it's healthy**
+- [x] **Step 4: Start Postgres and verify it's healthy**
 
 Run:
 ```bash
@@ -210,7 +210,7 @@ docker compose exec db psql -U koherent -d koherent -c 'SELECT version();'
 
 Expected: prints a `PostgreSQL 16.x ...` line.
 
-- [ ] **Step 5: Create the test database**
+- [x] **Step 5: Create the test database**
 
 Run:
 ```bash
@@ -219,7 +219,7 @@ docker compose exec db psql -U koherent -d koherent -c 'CREATE DATABASE koherent
 
 Expected: `CREATE DATABASE`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add .gitignore docker-compose.yml backend/storage/audio/.gitkeep
@@ -238,7 +238,7 @@ git commit -m "chore: bootstrap monorepo skeleton with docker-compose postgres"
 - Create: `backend/tests/__init__.py` (empty)
 - Create: `backend/tests/test_smoke.py`
 
-- [ ] **Step 1: Create `backend/pyproject.toml`**
+- [x] **Step 1: Create `backend/pyproject.toml`**
 
 ```toml
 [project]
@@ -281,7 +281,7 @@ line-length = 100
 target-version = "py311"
 ```
 
-- [ ] **Step 2: Create `backend/.env.example`**
+- [x] **Step 2: Create `backend/.env.example`**
 
 ```bash
 DATABASE_URL=postgresql+psycopg://koherent:koherent@localhost:5432/koherent
@@ -295,7 +295,7 @@ Also copy it for local use:
 cp backend/.env.example backend/.env
 ```
 
-- [ ] **Step 3: Create the FastAPI entrypoint**
+- [x] **Step 3: Create the FastAPI entrypoint**
 
 Create `backend/src/koherent/__init__.py` (empty file).
 
@@ -307,7 +307,7 @@ from fastapi import FastAPI
 app = FastAPI(title="Koherent API", version="0.1.0")
 ```
 
-- [ ] **Step 4: Install deps with `uv` and write a smoke test**
+- [x] **Step 4: Install deps with `uv` and write a smoke test**
 
 Run:
 ```bash
@@ -333,7 +333,7 @@ def test_app_boots():
     assert response.status_code == 404
 ```
 
-- [ ] **Step 5: Run pytest and verify it passes**
+- [x] **Step 5: Run pytest and verify it passes**
 
 Run:
 ```bash
@@ -342,7 +342,7 @@ cd backend && uv run pytest
 
 Expected: `1 passed`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/pyproject.toml backend/uv.lock backend/.env.example backend/src backend/tests
@@ -357,7 +357,7 @@ git commit -m "feat(backend): scaffold fastapi app with uv + pytest"
 - Modify: `backend/src/koherent/main.py`
 - Create: `backend/tests/test_health.py`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `backend/tests/test_health.py`:
 
@@ -374,7 +374,7 @@ def test_health_returns_ok():
     assert response.json() == {"status": "ok"}
 ```
 
-- [ ] **Step 2: Run and verify it fails**
+- [x] **Step 2: Run and verify it fails**
 
 Run:
 ```bash
@@ -383,7 +383,7 @@ cd backend && uv run pytest tests/test_health.py -v
 
 Expected: FAIL — `404 Not Found` on `/health`.
 
-- [ ] **Step 3: Implement the endpoint**
+- [x] **Step 3: Implement the endpoint**
 
 Replace `backend/src/koherent/main.py`:
 
@@ -398,7 +398,7 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 ```
 
-- [ ] **Step 4: Run and verify it passes**
+- [x] **Step 4: Run and verify it passes**
 
 Run:
 ```bash
@@ -407,7 +407,7 @@ cd backend && uv run pytest tests/test_health.py -v
 
 Expected: `1 passed`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/src/koherent/main.py backend/tests/test_health.py
@@ -431,7 +431,7 @@ This task bundles config, the DB layer, the model definitions, the test DB fixtu
 - Create: `backend/alembic/script.py.mako`
 - Create: `backend/alembic/versions/0001_initial.py`
 
-- [ ] **Step 1: Create `config.py`**
+- [x] **Step 1: Create `config.py`**
 
 Create `backend/src/koherent/config.py`:
 
@@ -455,7 +455,7 @@ class Settings(BaseSettings):
 settings = Settings()
 ```
 
-- [ ] **Step 2: Create `db.py`**
+- [x] **Step 2: Create `db.py`**
 
 Create `backend/src/koherent/db.py`:
 
@@ -474,7 +474,7 @@ engine = create_engine(settings.database_url, future=True)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
 ```
 
-- [ ] **Step 3: Create `models.py`**
+- [x] **Step 3: Create `models.py`**
 
 Create `backend/src/koherent/models.py`:
 
@@ -590,7 +590,7 @@ class AudioRecording(Base):
     lecture: Mapped[Lecture] = relationship(back_populates="audio_recordings")
 ```
 
-- [ ] **Step 4: Initialize Alembic**
+- [x] **Step 4: Initialize Alembic**
 
 Run:
 ```bash
@@ -599,7 +599,7 @@ cd backend && uv run alembic init alembic
 
 This creates `backend/alembic.ini`, `backend/alembic/env.py`, `backend/alembic/script.py.mako`, and `backend/alembic/versions/`.
 
-- [ ] **Step 5: Wire Alembic to our metadata**
+- [x] **Step 5: Wire Alembic to our metadata**
 
 Replace `backend/alembic/env.py`:
 
@@ -651,7 +651,7 @@ else:
     run_migrations_online()
 ```
 
-- [ ] **Step 6: Generate the first migration**
+- [x] **Step 6: Generate the first migration**
 
 Run:
 ```bash
@@ -662,7 +662,7 @@ Expected: a new file like `backend/alembic/versions/<hash>_initial_schema.py` is
 
 Rename the file to `0001_initial.py` for stable ordering and edit the top of the file so `revision = "0001"` and `down_revision = None`.
 
-- [ ] **Step 7: Apply the migration to dev DB**
+- [x] **Step 7: Apply the migration to dev DB**
 
 Run:
 ```bash
@@ -678,7 +678,7 @@ docker compose exec db psql -U koherent -d koherent -c '\dt'
 
 Expected: lists `classes`, `students`, `lectures`, `notes`, `audio_recordings`, `alembic_version`.
 
-- [ ] **Step 8: Create the test fixtures (`conftest.py`)**
+- [x] **Step 8: Create the test fixtures (`conftest.py`)**
 
 Create `backend/tests/conftest.py`:
 
@@ -732,7 +732,7 @@ def client(db) -> Generator[TestClient, None, None]:
 
 Note: `koherent.deps.get_db` is created in Task 5. This conftest will fail to import until then. That's intentional — the next task wires it up.
 
-- [ ] **Step 9: Write a model-level test**
+- [x] **Step 9: Write a model-level test**
 
 Create `backend/tests/test_models.py`:
 
@@ -760,7 +760,7 @@ def test_can_persist_class_and_student(db):
 
 This test will be runnable after Task 5 creates `deps.py`. Run it then; for now move to Task 5.
 
-- [ ] **Step 10: Commit**
+- [x] **Step 10: Commit**
 
 ```bash
 git add backend/src/koherent/config.py backend/src/koherent/db.py backend/src/koherent/models.py \
@@ -775,7 +775,7 @@ git commit -m "feat(backend): add config, db, models, and initial alembic migrat
 **Files:**
 - Create: `backend/src/koherent/deps.py`
 
-- [ ] **Step 1: Create `deps.py` with `get_db`**
+- [x] **Step 1: Create `deps.py` with `get_db`**
 
 Create `backend/src/koherent/deps.py`:
 
@@ -797,7 +797,7 @@ def get_db() -> Generator[Session, None, None]:
 
 (Note: `get_current_student` is added in Task 8 when it's first needed.)
 
-- [ ] **Step 2: Run the models test and verify it passes**
+- [x] **Step 2: Run the models test and verify it passes**
 
 Run:
 ```bash
@@ -812,7 +812,7 @@ cd backend && uv run pytest -v
 
 Expected: all tests pass.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add backend/src/koherent/deps.py
@@ -830,7 +830,7 @@ git commit -m "feat(backend): add get_db dependency"
 - Modify: `backend/src/koherent/main.py`
 - Create: `backend/tests/test_classes.py`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `backend/tests/test_classes.py`:
 
@@ -853,7 +853,7 @@ def test_create_class_rejects_empty_name(client):
     assert response.status_code == 422
 ```
 
-- [ ] **Step 2: Run and watch fail**
+- [x] **Step 2: Run and watch fail**
 
 Run:
 ```bash
@@ -862,7 +862,7 @@ cd backend && uv run pytest tests/test_classes.py -v
 
 Expected: FAIL — `404 Not Found` on POST /classes.
 
-- [ ] **Step 3: Create `schemas.py`**
+- [x] **Step 3: Create `schemas.py`**
 
 Create `backend/src/koherent/schemas.py`:
 
@@ -890,7 +890,7 @@ class ClassCreated(ClassRead):
     owner_token: str
 ```
 
-- [ ] **Step 4: Create the routes package and the classes router**
+- [x] **Step 4: Create the routes package and the classes router**
 
 Create `backend/src/koherent/routes/__init__.py` (empty file).
 
@@ -938,7 +938,7 @@ def create_class(payload: ClassCreate, db: Session = Depends(get_db)) -> Class:
     raise RuntimeError("Could not allocate a unique join code after 10 attempts")
 ```
 
-- [ ] **Step 5: Mount the router in `main.py`**
+- [x] **Step 5: Mount the router in `main.py`**
 
 Replace `backend/src/koherent/main.py`:
 
@@ -967,7 +967,7 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 ```
 
-- [ ] **Step 6: Run and watch pass**
+- [x] **Step 6: Run and watch pass**
 
 Run:
 ```bash
@@ -976,7 +976,7 @@ cd backend && uv run pytest tests/test_classes.py -v
 
 Expected: `2 passed`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/src/koherent/schemas.py backend/src/koherent/routes backend/src/koherent/main.py backend/tests/test_classes.py
@@ -992,7 +992,7 @@ git commit -m "feat(backend): POST /classes creates a class with a join code"
 - Modify: `backend/src/koherent/routes/classes.py`
 - Create: `backend/tests/test_join.py`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `backend/tests/test_join.py`:
 
@@ -1037,7 +1037,7 @@ def test_join_duplicate_display_name_returns_409(client):
     assert response.status_code == 409
 ```
 
-- [ ] **Step 2: Run and watch fail**
+- [x] **Step 2: Run and watch fail**
 
 Run:
 ```bash
@@ -1046,7 +1046,7 @@ cd backend && uv run pytest tests/test_join.py -v
 
 Expected: FAIL — `404` on POST /classes/join.
 
-- [ ] **Step 3: Add the join schemas**
+- [x] **Step 3: Add the join schemas**
 
 Append to `backend/src/koherent/schemas.py`:
 
@@ -1063,7 +1063,7 @@ class StudentSession(BaseModel):
     session_token: str
 ```
 
-- [ ] **Step 4: Implement the join route**
+- [x] **Step 4: Implement the join route**
 
 Add to `backend/src/koherent/routes/classes.py` (below the existing `create_class`):
 
@@ -1121,7 +1121,7 @@ def join_class(
 
 Note: the `secrets` import is added at the top of the file as a regular import alongside the existing ones — consolidate `import secrets` to a single line at file top.
 
-- [ ] **Step 5: Run and watch pass**
+- [x] **Step 5: Run and watch pass**
 
 Run:
 ```bash
@@ -1130,7 +1130,7 @@ cd backend && uv run pytest tests/test_join.py -v
 
 Expected: `3 passed`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/koherent/schemas.py backend/src/koherent/routes/classes.py backend/tests/test_join.py
@@ -1146,7 +1146,7 @@ git commit -m "feat(backend): POST /classes/join issues student session"
 - Create: `backend/tests/test_session.py`
 - Modify: `backend/src/koherent/main.py` (temporary test-only route)
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `backend/tests/test_session.py`:
 
@@ -1178,7 +1178,7 @@ def test_me_without_session_returns_401(client):
 
 Note: TestClient persists cookies. The second assertion uses an empty cookie value to simulate an unauthenticated request. If the framework version doesn't honor that, change the test to instantiate a fresh `TestClient(app)` for the unauthenticated call.
 
-- [ ] **Step 2: Run and watch fail**
+- [x] **Step 2: Run and watch fail**
 
 Run:
 ```bash
@@ -1187,7 +1187,7 @@ cd backend && uv run pytest tests/test_session.py -v
 
 Expected: FAIL — `404` on `/me`.
 
-- [ ] **Step 3: Add `get_current_student` to `deps.py`**
+- [x] **Step 3: Add `get_current_student` to `deps.py`**
 
 Replace `backend/src/koherent/deps.py`:
 
@@ -1224,7 +1224,7 @@ def get_current_student(
     return student
 ```
 
-- [ ] **Step 4: Add a `/me` route to satisfy the test**
+- [x] **Step 4: Add a `/me` route to satisfy the test**
 
 Edit `backend/src/koherent/main.py` and add (below the existing `/health` route):
 
@@ -1246,7 +1246,7 @@ def me(current: Student = Depends(get_current_student)) -> StudentSession:
 
 Consolidate the `from fastapi import ...` line at the top to include `Depends`.
 
-- [ ] **Step 5: Run and watch pass**
+- [x] **Step 5: Run and watch pass**
 
 Run:
 ```bash
@@ -1255,7 +1255,7 @@ cd backend && uv run pytest tests/test_session.py -v
 
 Expected: `2 passed`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/koherent/deps.py backend/src/koherent/main.py backend/tests/test_session.py
@@ -1272,7 +1272,7 @@ git commit -m "feat(backend): add get_current_student dependency and /me"
 - Modify: `backend/src/koherent/main.py`
 - Create: `backend/tests/test_lectures.py`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `backend/tests/test_lectures.py`:
 
@@ -1303,7 +1303,7 @@ def test_start_lecture_without_session_returns_401(client):
     assert response.status_code == 401
 ```
 
-- [ ] **Step 2: Run and watch fail**
+- [x] **Step 2: Run and watch fail**
 
 Run:
 ```bash
@@ -1312,7 +1312,7 @@ cd backend && uv run pytest tests/test_lectures.py -v
 
 Expected: FAIL — `404` on POST /lectures.
 
-- [ ] **Step 3: Add lecture schemas**
+- [x] **Step 3: Add lecture schemas**
 
 Append to `backend/src/koherent/schemas.py`:
 
@@ -1329,7 +1329,7 @@ class LectureRead(BaseModel):
     ended_at: datetime | None
 ```
 
-- [ ] **Step 4: Create the lectures router**
+- [x] **Step 4: Create the lectures router**
 
 Create `backend/src/koherent/routes/lectures.py`:
 
@@ -1361,7 +1361,7 @@ def start_lecture(
     return lecture
 ```
 
-- [ ] **Step 5: Mount the router**
+- [x] **Step 5: Mount the router**
 
 In `backend/src/koherent/main.py`, add to imports:
 
@@ -1375,7 +1375,7 @@ And below the existing `app.include_router(classes.router)`:
 app.include_router(lectures.router)
 ```
 
-- [ ] **Step 6: Run and watch pass**
+- [x] **Step 6: Run and watch pass**
 
 Run:
 ```bash
@@ -1384,7 +1384,7 @@ cd backend && uv run pytest tests/test_lectures.py -v
 
 Expected: `2 passed`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/src/koherent/schemas.py backend/src/koherent/routes/lectures.py backend/src/koherent/main.py backend/tests/test_lectures.py
@@ -1400,7 +1400,7 @@ git commit -m "feat(backend): POST /lectures starts a lecture for the current st
 - Modify: `backend/src/koherent/routes/lectures.py`
 - Create: `backend/tests/test_notes.py`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `backend/tests/test_notes.py`:
 
@@ -1458,7 +1458,7 @@ def test_post_note_to_unknown_lecture_returns_404(client):
     assert response.status_code == 404
 ```
 
-- [ ] **Step 2: Run and watch fail**
+- [x] **Step 2: Run and watch fail**
 
 Run:
 ```bash
@@ -1467,7 +1467,7 @@ cd backend && uv run pytest tests/test_notes.py -v
 
 Expected: FAIL — `404` on POST /lectures/{id}/notes.
 
-- [ ] **Step 3: Add note schemas**
+- [x] **Step 3: Add note schemas**
 
 Append to `backend/src/koherent/schemas.py`:
 
@@ -1486,7 +1486,7 @@ class NoteRead(BaseModel):
     created_at: datetime
 ```
 
-- [ ] **Step 4: Implement the note route**
+- [x] **Step 4: Implement the note route**
 
 Append to `backend/src/koherent/routes/lectures.py`:
 
@@ -1530,7 +1530,7 @@ def append_note(
 
 Consolidate the `import uuid` at the file top alongside other imports.
 
-- [ ] **Step 5: Run and watch pass**
+- [x] **Step 5: Run and watch pass**
 
 Run:
 ```bash
@@ -1539,7 +1539,7 @@ cd backend && uv run pytest tests/test_notes.py -v
 
 Expected: `3 passed`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/koherent/schemas.py backend/src/koherent/routes/lectures.py backend/tests/test_notes.py
@@ -1556,7 +1556,7 @@ git commit -m "feat(backend): POST /lectures/{id}/notes appends a timestamped no
 - Modify: `backend/src/koherent/schemas.py`
 - Create: `backend/tests/test_audio.py`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `backend/tests/test_audio.py`:
 
@@ -1608,7 +1608,7 @@ def test_upload_audio_rejects_non_audio_mime(client):
     assert response.status_code == 415
 ```
 
-- [ ] **Step 2: Run and watch fail**
+- [x] **Step 2: Run and watch fail**
 
 Run:
 ```bash
@@ -1617,7 +1617,7 @@ cd backend && uv run pytest tests/test_audio.py -v
 
 Expected: FAIL — `404` on POST /lectures/{id}/audio.
 
-- [ ] **Step 3: Create the storage helper**
+- [x] **Step 3: Create the storage helper**
 
 Create `backend/src/koherent/storage.py`:
 
@@ -1643,7 +1643,7 @@ def save_audio(content: bytes, suffix: str = ".webm") -> str:
     return name
 ```
 
-- [ ] **Step 4: Add the audio schema**
+- [x] **Step 4: Add the audio schema**
 
 Append to `backend/src/koherent/schemas.py`:
 
@@ -1658,7 +1658,7 @@ class AudioRecordingRead(BaseModel):
     created_at: datetime
 ```
 
-- [ ] **Step 5: Implement the upload route**
+- [x] **Step 5: Implement the upload route**
 
 Append to `backend/src/koherent/routes/lectures.py`:
 
@@ -1706,7 +1706,7 @@ def upload_audio(
     return recording
 ```
 
-- [ ] **Step 6: Run and watch pass**
+- [x] **Step 6: Run and watch pass**
 
 Run:
 ```bash
@@ -1722,7 +1722,7 @@ cd backend && uv run pytest -v
 
 Expected: all tests pass.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/src/koherent/storage.py backend/src/koherent/schemas.py backend/src/koherent/routes/lectures.py backend/tests/test_audio.py
@@ -1737,7 +1737,7 @@ git commit -m "feat(backend): POST /lectures/{id}/audio uploads audio to disk"
 - Modify: `backend/src/koherent/routes/lectures.py`
 - Modify: `backend/tests/test_lectures.py`
 
-- [ ] **Step 1: Add the failing test**
+- [x] **Step 1: Add the failing test**
 
 Append to `backend/tests/test_lectures.py`:
 
@@ -1760,7 +1760,7 @@ def test_get_lecture_returns_status(client):
     assert body["has_audio"] is False
 ```
 
-- [ ] **Step 2: Run and watch fail**
+- [x] **Step 2: Run and watch fail**
 
 Run:
 ```bash
@@ -1769,7 +1769,7 @@ cd backend && uv run pytest tests/test_lectures.py::test_get_lecture_returns_sta
 
 Expected: FAIL — `404` or `405`.
 
-- [ ] **Step 3: Add response schema**
+- [x] **Step 3: Add response schema**
 
 Append to `backend/src/koherent/schemas.py`:
 
@@ -1779,7 +1779,7 @@ class LectureStatus(LectureRead):
     has_audio: bool
 ```
 
-- [ ] **Step 4: Add the GET route**
+- [x] **Step 4: Add the GET route**
 
 Append to `backend/src/koherent/routes/lectures.py`:
 
@@ -1818,7 +1818,7 @@ def get_lecture(
     )
 ```
 
-- [ ] **Step 5: Run and watch pass**
+- [x] **Step 5: Run and watch pass**
 
 Run:
 ```bash
@@ -1827,7 +1827,7 @@ cd backend && uv run pytest -v
 
 Expected: all tests pass.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/koherent/schemas.py backend/src/koherent/routes/lectures.py backend/tests/test_lectures.py
@@ -1842,7 +1842,7 @@ git commit -m "feat(backend): GET /lectures/{id} returns status for the in-lectu
 - Create: `frontend/` (via `pnpm create next-app`)
 - Modify: `frontend/.env.local.example`
 
-- [ ] **Step 1: Scaffold the Next.js app**
+- [x] **Step 1: Scaffold the Next.js app**
 
 Run from the repo root:
 ```bash
@@ -1852,7 +1852,7 @@ pnpm create next-app frontend \
 
 Accept defaults for any remaining prompts. This generates a complete `frontend/` directory.
 
-- [ ] **Step 2: Add `.env.local` files**
+- [x] **Step 2: Add `.env.local` files**
 
 Create `frontend/.env.local.example`:
 
@@ -1865,7 +1865,7 @@ And:
 cp frontend/.env.local.example frontend/.env.local
 ```
 
-- [ ] **Step 3: Verify dev server boots**
+- [x] **Step 3: Verify dev server boots**
 
 In one terminal:
 ```bash
@@ -1874,7 +1874,7 @@ cd frontend && pnpm dev
 
 Open http://localhost:3000 — you should see the default Next.js welcome page. Kill the dev server (Ctrl-C) when verified.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add frontend
@@ -1888,7 +1888,7 @@ git commit -m "feat(frontend): scaffold next.js 15 app with tailwind"
 **Files:**
 - Create: `frontend/src/lib/api.ts`
 
-- [ ] **Step 1: Create the API client**
+- [x] **Step 1: Create the API client**
 
 Create `frontend/src/lib/api.ts`:
 
@@ -1985,7 +1985,7 @@ export const api = {
 };
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add frontend/src/lib/api.ts
@@ -2000,7 +2000,7 @@ git commit -m "feat(frontend): typed api client wrapping backend endpoints"
 - Modify: `frontend/src/app/page.tsx`
 - Create: `frontend/src/app/create/page.tsx`
 
-- [ ] **Step 1: Replace the landing page**
+- [x] **Step 1: Replace the landing page**
 
 Replace `frontend/src/app/page.tsx`:
 
@@ -2031,7 +2031,7 @@ export default function HomePage() {
 }
 ```
 
-- [ ] **Step 2: Create the create-class page**
+- [x] **Step 2: Create the create-class page**
 
 Create `frontend/src/app/create/page.tsx`:
 
@@ -2104,7 +2104,7 @@ export default function CreateClassPage() {
 
 Note: the import uses `@/lib/api`. If `pnpm create next-app` set up the `@/*` alias (default in `tsconfig.json` from the scaffold), this works as-is. If you opted out, change to a relative import.
 
-- [ ] **Step 3: Manual test**
+- [x] **Step 3: Manual test**
 
 Start backend and frontend in two terminals:
 ```bash
@@ -2124,7 +2124,7 @@ docker compose exec db psql -U koherent -d koherent -c "SELECT name, join_code F
 
 Expected: a row showing your class.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add frontend/src/app/page.tsx frontend/src/app/create/page.tsx
@@ -2139,7 +2139,7 @@ git commit -m "feat(frontend): landing page and create-class flow"
 - Create: `frontend/src/app/join/page.tsx`
 - Create: `frontend/src/app/class/page.tsx`
 
-- [ ] **Step 1: Create the join page**
+- [x] **Step 1: Create the join page**
 
 Create `frontend/src/app/join/page.tsx`:
 
@@ -2205,7 +2205,7 @@ export default function JoinClassPage() {
 }
 ```
 
-- [ ] **Step 2: Create the class home page**
+- [x] **Step 2: Create the class home page**
 
 Create `frontend/src/app/class/page.tsx`:
 
@@ -2264,7 +2264,7 @@ export default function ClassHomePage() {
 }
 ```
 
-- [ ] **Step 3: Manual test**
+- [x] **Step 3: Manual test**
 
 Backend and frontend still running. In an incognito window, go to http://localhost:3000/join, enter the join code from Task 15 and a name. You should land on `/class` showing "Welcome, [your name]". Click "Start a new lecture" — you'll be redirected to `/lecture/[id]` (which won't render anything yet; the page is built in Task 17). Verify in the DB:
 
@@ -2274,7 +2274,7 @@ docker compose exec db psql -U koherent -d koherent -c "SELECT s.display_name, l
 
 Expected: one row showing your name and the lecture ID.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add frontend/src/app/join/page.tsx frontend/src/app/class/page.tsx
@@ -2291,7 +2291,7 @@ git commit -m "feat(frontend): join class flow and class home page"
 - Create: `frontend/src/components/AudioRecorder.tsx`
 - Create: `frontend/src/app/lecture/[id]/page.tsx`
 
-- [ ] **Step 1: Create the recorder helper**
+- [x] **Step 1: Create the recorder helper**
 
 Create `frontend/src/lib/recorder.ts`:
 
@@ -2334,7 +2334,7 @@ export class LectureRecorder {
 }
 ```
 
-- [ ] **Step 2: Create the note editor component**
+- [x] **Step 2: Create the note editor component**
 
 Create `frontend/src/components/NoteEditor.tsx`:
 
@@ -2400,7 +2400,7 @@ export function NoteEditor({ lectureId, startedAt }: { lectureId: string; starte
 }
 ```
 
-- [ ] **Step 3: Create the audio recorder component**
+- [x] **Step 3: Create the audio recorder component**
 
 Create `frontend/src/components/AudioRecorder.tsx`:
 
@@ -2481,7 +2481,7 @@ export function AudioRecorder({ lectureId }: { lectureId: string }) {
 }
 ```
 
-- [ ] **Step 4: Create the in-lecture page**
+- [x] **Step 4: Create the in-lecture page**
 
 Create `frontend/src/app/lecture/[id]/page.tsx`:
 
@@ -2520,7 +2520,7 @@ export default function LecturePage({ params }: { params: Promise<{ id: string }
 }
 ```
 
-- [ ] **Step 5: Manual test**
+- [x] **Step 5: Manual test**
 
 With backend and frontend running, walk through:
 1. Open http://localhost:3000 in a regular window, click "Create a class", name it `Test Class`, note the join code.
@@ -2541,7 +2541,7 @@ With backend and frontend running, walk through:
    ```
    Expected: a `.webm` file ~the size shown in the UI.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/lib/recorder.ts frontend/src/components frontend/src/app/lecture
@@ -2555,7 +2555,7 @@ git commit -m "feat(frontend): in-lecture page with note autosave and audio reco
 **Files:**
 - Create: `README.md`
 
-- [ ] **Step 1: Run the full E2E flow with two students**
+- [x] **Step 1: Run the full E2E flow with two students**
 
 With both servers running:
 1. Window A (regular): create class `Econ 101`, note the join code.
@@ -2575,7 +2575,7 @@ With both servers running:
 
 If anything fails, fix it before continuing.
 
-- [ ] **Step 2: Write the root README**
+- [x] **Step 2: Write the root README**
 
 Create `README.md`:
 
@@ -2656,14 +2656,14 @@ cd backend && uv run pytest
 - `project_plan.md` — product/architecture spec
 ```
 
-- [ ] **Step 3: Final commit**
+- [x] **Step 3: Final commit**
 
 ```bash
 git add README.md
 git commit -m "docs: add README with run instructions"
 ```
 
-- [ ] **Step 4: Final verification — all backend tests still pass**
+- [x] **Step 4: Final verification — all backend tests still pass**
 
 ```bash
 cd backend && uv run pytest -v
