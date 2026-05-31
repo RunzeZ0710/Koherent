@@ -3,7 +3,17 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import BigInteger, DateTime, Float, ForeignKey, String, UniqueConstraint, func
+from sqlalchemy import (
+    ARRAY,
+    BigInteger,
+    DateTime,
+    Float,
+    ForeignKey,
+    String,
+    Text,
+    UniqueConstraint,
+    func,
+)
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -67,6 +77,9 @@ class Lecture(Base):
     audio_recordings: Mapped[list["AudioRecording"]] = relationship(
         back_populates="lecture", cascade="all, delete-orphan"
     )
+    transcript: Mapped["Transcript | None"] = relationship(
+        back_populates="lecture", cascade="all, delete-orphan", uselist=False
+    )
 
 
 class Note(Base):
@@ -81,11 +94,15 @@ class Note(Base):
     )
     content: Mapped[str] = mapped_column(String, nullable=False)
     client_timestamp_ms: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    embedding: Mapped[list[float] | None] = mapped_column(ARRAY(Float), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
 
     lecture: Mapped[Lecture] = relationship(back_populates="notes")
+    alignment: Mapped["NoteAlignment | None"] = relationship(
+        back_populates="note", cascade="all, delete-orphan", uselist=False
+    )
 
 
 class AudioRecording(Base):
@@ -107,3 +124,73 @@ class AudioRecording(Base):
     )
 
     lecture: Mapped[Lecture] = relationship(back_populates="audio_recordings")
+
+
+class Transcript(Base):
+    __tablename__ = "transcripts"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
+    lecture_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("lectures.id", ondelete="CASCADE"),
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+    full_text: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    lecture: Mapped[Lecture] = relationship(back_populates="transcript")
+    chunks: Mapped[list["TranscriptChunk"]] = relationship(
+        back_populates="transcript", cascade="all, delete-orphan"
+    )
+
+
+class TranscriptChunk(Base):
+    __tablename__ = "transcript_chunks"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
+    transcript_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("transcripts.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    chunk_index: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    start_ms: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    end_ms: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    embedding: Mapped[list[float]] = mapped_column(ARRAY(Float), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    transcript: Mapped[Transcript] = relationship(back_populates="chunks")
+
+
+class NoteAlignment(Base):
+    __tablename__ = "note_alignments"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
+    note_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("notes.id", ondelete="CASCADE"),
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+    transcript_chunk_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("transcript_chunks.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    similarity: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    note: Mapped[Note] = relationship(back_populates="alignment")
+    chunk: Mapped[TranscriptChunk] = relationship()
