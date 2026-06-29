@@ -1,5 +1,7 @@
 import hashlib
 
+from koherent.ai.base import Transcription, TranscriptWord
+
 DEFAULT_TRANSCRIPT = (
     "Today we covered supply and demand. The market reaches equilibrium where "
     "the supply curve crosses the demand curve. A firm maximizes profit where "
@@ -17,12 +19,17 @@ class FakeAIClient:
     """
 
     DIM = 64
+    _WORD_MS = 400  # synthetic cadence: one word every 400ms
 
     def __init__(self, transcript: str = DEFAULT_TRANSCRIPT) -> None:
         self._transcript = transcript
 
-    def transcribe(self, audio_path: str) -> str:
-        return self._transcript
+    def transcribe(self, audio_path: str) -> Transcription:
+        words: list[TranscriptWord] = []
+        for i, token in enumerate(self._transcript.split()):
+            start = i * self._WORD_MS
+            words.append(TranscriptWord(word=token, start_ms=start, end_ms=start + 300))
+        return Transcription(text=self._transcript, words=words)
 
     def embed(self, texts: list[str]) -> list[list[float]]:
         return [self._embed_one(t) for t in texts]

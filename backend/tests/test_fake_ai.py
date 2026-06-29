@@ -25,12 +25,27 @@ def test_embed_shared_words_point_more_similarly_than_disjoint():
     assert cos(base, overlap) > cos(base, disjoint)
 
 
-def test_transcribe_returns_text():
+def test_transcribe_returns_transcription_with_words():
+    from koherent.ai.base import Transcription
+
     ai = FakeAIClient()
-    assert isinstance(ai.transcribe("anything.webm"), str)
-    assert len(ai.transcribe("anything.webm")) > 0
+    result = ai.transcribe("anything.webm")
+    assert isinstance(result, Transcription)
+    assert len(result.text) > 0
+    assert len(result.words) > 0
+    assert result.words[0].word == result.text.split()[0]
+
+
+def test_transcribe_words_have_increasing_timestamps():
+    ai = FakeAIClient()
+    words = ai.transcribe("anything.webm").words
+    starts = [w.start_ms for w in words]
+    assert starts == sorted(starts)
+    assert all(w.end_ms >= w.start_ms for w in words)
 
 
 def test_transcribe_can_be_overridden():
     ai = FakeAIClient(transcript="custom lecture text")
-    assert ai.transcribe("ignored.webm") == "custom lecture text"
+    result = ai.transcribe("ignored.webm")
+    assert result.text == "custom lecture text"
+    assert [w.word for w in result.words] == ["custom", "lecture", "text"]
