@@ -12,6 +12,9 @@ dependencies = [
     "pydantic-settings>=2.6",
     "python-multipart>=0.0.17",
     "numpy>=2.0",
+    "nvidia-riva-client>=2.26.0",
+    "openai>=1.0",
+    "ipython>=9.14.0",
 ]
 
 [project.optional-dependencies]
