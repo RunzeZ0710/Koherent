@@ -6,7 +6,8 @@ class Settings(BaseSettings):
     test_database_url: str = "postgresql+psycopg://koherent:koherent@localhost:5433/koherent_test"
     audio_storage_dir: str = "./storage/audio"
     cors_origins: str = "http://localhost:3002"
-
+    nvidia_api_key: str | None = None
+    anomaly_threshold: float = 0.2
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     @property

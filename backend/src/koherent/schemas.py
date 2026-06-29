@@ -79,3 +79,22 @@ class ProcessResult(BaseModel):
     chunk_count: int
     note_count: int
     alignment_count: int
+
+
+class NoteReportItem(BaseModel):
+    note_id: uuid.UUID
+    student_id: uuid.UUID
+    note_content: str
+    client_timestamp_ms: int
+    matched_chunk_index: int | None
+    matched_content: str | None
+    matched_start_ms: int | None
+    matched_end_ms: int | None
+    similarity: float | None
+    anomaly: bool
+
+
+class LectureReport(BaseModel):
+    lecture_id: uuid.UUID
+    threshold: float
+    items: list[NoteReportItem]
