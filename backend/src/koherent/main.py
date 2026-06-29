@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from koherent.config import settings
 from koherent.deps import get_current_student
 from koherent.models import Student
-from koherent.routes import classes, lectures
+from koherent.routes import classes, lectures, processing
 from koherent.schemas import StudentSession
 
 app = FastAPI(title="Koherent API", version="0.1.0")
@@ -19,6 +19,7 @@ app.add_middleware(
 
 app.include_router(classes.router)
 app.include_router(lectures.router)
+app.include_router(processing.router)
 
 
 @app.get("/health")

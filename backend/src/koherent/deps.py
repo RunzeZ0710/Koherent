@@ -4,10 +4,17 @@ from fastapi import Cookie, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from koherent.ai.base import AIClient
+from koherent.ai.real import RealAIClient
 from koherent.db import SessionLocal
 from koherent.models import Student
 
 SESSION_COOKIE_NAME = "koherent_session"
+
+
+def get_ai_client() -> AIClient:
+    """Real NVIDIA-backed client for production; tests override with FakeAIClient."""
+    return RealAIClient()
 
 
 def get_db() -> Generator[Session, None, None]:

@@ -72,3 +72,10 @@ class AudioRecordingRead(BaseModel):
 class LectureStatus(LectureRead):
     my_notes_count: int
     has_audio: bool
+
+
+class ProcessResult(BaseModel):
+    transcript_id: uuid.UUID
+    chunk_count: int
+    note_count: int
+    alignment_count: int
