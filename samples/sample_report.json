@@ -1,0 +1,46 @@
+{
+  "embedding_source": "real:nvidia/nv-embedqa-e5-v5",
+  "anomaly_threshold": 0.45,
+  "items": [
+    {
+      "note": "small businesses lose roughly 3.5 to 4 percent of each sale to credit card fees",
+      "matched_span_ms": [
+        320,
+        30080
+      ],
+      "matched_lecture_text": "For every dollar earned by small businesses, nearly 3.5%, nearly 3.5% to 4% company is lost due to credit card fees or either passed on to the consumer, or either passed on to the consumer, passed on to the consumer. Small businesses hate using credit cards. Small businesses hate using credit cards, which is no wonder that a lot of them have begun to process payments with Lell and Venmo to begin to process payments using Zell and Venmo.",
+      "similarity": 0.6666,
+      "anomaly": false
+    },
+    {
+      "note": "credit card processing fees are often passed on to the consumer",
+      "matched_span_ms": [
+        320,
+        30080
+      ],
+      "matched_lecture_text": "For every dollar earned by small businesses, nearly 3.5%, nearly 3.5% to 4% company is lost due to credit card fees or either passed on to the consumer, or either passed on to the consumer, passed on to the consumer. Small businesses hate using credit cards. Small businesses hate using credit cards, which is no wonder that a lot of them have begun to process payments with Lell and Venmo to begin to process payments using Zell and Venmo.",
+      "similarity": 0.5446,
+      "anomaly": false
+    },
+    {
+      "note": "small businesses love using credit cards",
+      "matched_span_ms": [
+        30480,
+        53120
+      ],
+      "matched_lecture_text": "And while this may work for 20 or 30 customers, 20 or 30 recurring customers. This doesn't work. This payment model significantly hinders the ability for small businesses to grow. And while the extra friction of the extra that",
+      "similarity": 0.5908,
+      "anomaly": false
+    },
+    {
+      "note": "the mitochondria is the powerhouse of the cell",
+      "matched_span_ms": [
+        30480,
+        53120
+      ],
+      "matched_lecture_text": "And while this may work for 20 or 30 customers, 20 or 30 recurring customers. This doesn't work. This payment model significantly hinders the ability for small businesses to grow. And while the extra friction of the extra that",
+      "similarity": 0.3741,
+      "anomaly": true
+    }
+  ]
+}

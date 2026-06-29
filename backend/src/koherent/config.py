@@ -7,7 +7,9 @@ class Settings(BaseSettings):
     audio_storage_dir: str = "./storage/audio"
     cors_origins: str = "http://localhost:3002"
     nvidia_api_key: str | None = None
-    anomaly_threshold: float = 0.2
+    # Calibrated against real nv-embedqa-e5-v5 output: on-topic notes score
+    # ~0.54-0.67, off-topic ~0.37, so 0.45 separates them. Tunable starting point.
+    anomaly_threshold: float = 0.45
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     @property
