@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from koherent.pipeline.alignment import AlignmentResult, align, cosine
+from koherent.pipeline.alignment import align, cosine
 
 
 # --------------------------------------------------------------------------
