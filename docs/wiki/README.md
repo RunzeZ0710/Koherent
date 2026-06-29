@@ -27,6 +27,7 @@ docs/wiki/
     04-data-model.md
     05-testing.md
     06-config-and-migrations.md
+    07-ai-pipeline.md
 ```
 
 - **[DECISIONS.md](DECISIONS.md)** is the spine. It is a flat list of every

@@ -29,6 +29,12 @@ See [README.md](README.md) for how this index works and how to add to it.
 | [D-020](topics/06-config-and-migrations.md#d-020-manage-schema-changes-with-alembic-migrations) | Manage schema changes with Alembic migrations | 2026-05-21 | Active | [06-config-and-migrations](topics/06-config-and-migrations.md) |
 | [D-021](topics/06-config-and-migrations.md#d-021-run-postgres-on-host-port-5433) | Run Postgres on host port 5433 to avoid local conflicts | 2026-05-21 | Active | [06-config-and-migrations](topics/06-config-and-migrations.md) |
 | [D-022](topics/06-config-and-migrations.md#d-022-use-uv-for-python-dependency-and-environment-management) | Use `uv` for Python dependency/environment management | 2026-05-21 | Active | [06-config-and-migrations](topics/06-config-and-migrations.md) |
+| [D-023](topics/07-ai-pipeline.md#d-023-hide-all-ai-behind-one-aiclient-seam) | Hide all AI behind one `AIClient` seam (ports & adapters) | 2026-06-29 | Active | [07-ai-pipeline](topics/07-ai-pipeline.md) |
+| [D-024](topics/07-ai-pipeline.md#d-024-transcribe-returns-a-transcription-text--word-timestamps) | `transcribe()` returns a `Transcription` (text + word timestamps) | 2026-06-29 | Active | [07-ai-pipeline](topics/07-ai-pipeline.md) |
+| [D-025](topics/07-ai-pipeline.md#d-025-embeddings-via-nvidia-nim-nv-embedqa-e5-v5) | Embeddings via NVIDIA NIM `nv-embedqa-e5-v5` | 2026-06-29 | Active | [07-ai-pipeline](topics/07-ai-pipeline.md) |
+| [D-026](topics/07-ai-pipeline.md#d-026-store-vectors-as-float-columns-cosine-in-python-no-pgvector) | Store vectors as `float[]`, cosine in Python (no pgvector) | 2026-06-29 | Active | [07-ai-pipeline](topics/07-ai-pipeline.md) |
+| [D-027](topics/07-ai-pipeline.md#d-027-link-by-cosine-argmax-flag-anomalies-below-a-threshold) | Link by cosine argmax; flag anomalies below a threshold | 2026-06-29 | Active | [07-ai-pipeline](topics/07-ai-pipeline.md) |
+| [D-028](topics/07-ai-pipeline.md#d-028-process-synchronously-and-idempotently) | Process synchronously and idempotently | 2026-06-29 | Active | [07-ai-pipeline](topics/07-ai-pipeline.md) |
 
 ## Status legend
 
