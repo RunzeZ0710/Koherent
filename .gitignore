@@ -30,3 +30,9 @@ backend/storage/audio/*
 
 # Postgres data volume
 .pgdata/
+
+# Local scratch / spikes (never committed)
+backend/scratch/
+backend/scratch_*.py
+backend/scratch_*.json
+backend/spike_*.py
