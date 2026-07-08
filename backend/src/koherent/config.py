@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     # Calibrated against real nv-embedqa-e5-v5 output: on-topic notes score
     # ~0.54-0.67, off-topic ~0.37, so 0.45 separates them. Tunable starting point.
     anomaly_threshold: float = 0.45
+    nim_chat_model: str = "meta/llama-3.3-70b-instruct"
+    # Character cap on assembled retrieval context before an LLM call; keeps
+    # prompts well inside the model window without token-counting machinery.
+    context_char_budget: int = 12000
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     @property
