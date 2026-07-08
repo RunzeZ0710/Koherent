@@ -28,6 +28,7 @@ docs/wiki/
     05-testing.md
     06-config-and-migrations.md
     07-ai-pipeline.md
+    08-assistant-and-evals.md
 ```
 
 - **[DECISIONS.md](DECISIONS.md)** is the spine. It is a flat list of every
@@ -78,9 +79,13 @@ pages hold the depth.
 
 ## Scope right now
 
-This wiki currently documents **Week 1 of the backend** (the capture loop:
-classes, students, lectures, notes, audio — no AI yet). Frontend and later weeks
-will be added using the same framework. See
+This wiki currently documents the **backend**: the capture loop (classes,
+students, lectures, notes, audio), the AI retrieval pipeline (transcription,
+chunking, embedding, note-to-transcript alignment, anomaly flagging), and the
+assistant/eval layer built on top of it (document ingestion, grounded
+ask/explain/summary/review endpoints, and the eval harness). Frontend and
+later product surfaces (the clustering dashboard, professor role) will be
+added using the same framework as they ship. See
 [project_plan.md](../../project_plan.md) for the product roadmap and
 [docs/superpowers/plans/](../superpowers/plans/) for the task-by-task build
 plans.

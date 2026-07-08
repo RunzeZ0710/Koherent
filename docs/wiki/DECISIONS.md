@@ -35,6 +35,11 @@ See [README.md](README.md) for how this index works and how to add to it.
 | [D-026](topics/07-ai-pipeline.md#d-026-store-vectors-as-float-columns-cosine-in-python-no-pgvector) | Store vectors as `float[]`, cosine in Python (no pgvector) | 2026-06-29 | Active | [07-ai-pipeline](topics/07-ai-pipeline.md) |
 | [D-027](topics/07-ai-pipeline.md#d-027-link-by-cosine-argmax-flag-anomalies-below-a-threshold) | Link by cosine argmax; flag anomalies below a threshold | 2026-06-29 | Active | [07-ai-pipeline](topics/07-ai-pipeline.md) |
 | [D-028](topics/07-ai-pipeline.md#d-028-process-synchronously-and-idempotently) | Process synchronously and idempotently | 2026-06-29 | Active | [07-ai-pipeline](topics/07-ai-pipeline.md) |
+| [D-029](topics/08-assistant-and-evals.md#d-029-chat-generation-behind-the-same-seam) | Chat generation behind the same `AIClient` seam | 2026-07-08 | Active | [08-assistant-and-evals](topics/08-assistant-and-evals.md) |
+| [D-030](topics/08-assistant-and-evals.md#d-030-document-ingestion--text-chunking) | Document ingestion & text chunking (suffix dispatch, paragraph-aware) | 2026-07-08 | Active | [08-assistant-and-evals](topics/08-assistant-and-evals.md) |
+| [D-031](topics/08-assistant-and-evals.md#d-031-query-typed-retrieval) | Query-typed retrieval (`embed_query`, closes the D-025 asymmetry gap) | 2026-07-08 | Active | [08-assistant-and-evals](topics/08-assistant-and-evals.md) |
+| [D-032](topics/08-assistant-and-evals.md#d-032-eval-design) | Eval design: marker-based golden set + LLM-judge groundedness | 2026-07-08 | Active | [08-assistant-and-evals](topics/08-assistant-and-evals.md) |
+| [D-033](topics/08-assistant-and-evals.md#d-033-report-scoping--authz) | Report scoping / authz: shared class-membership guard | 2026-07-08 | Active | [08-assistant-and-evals](topics/08-assistant-and-evals.md) |
 
 ## Status legend
 
