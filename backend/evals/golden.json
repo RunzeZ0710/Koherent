@@ -1,0 +1,88 @@
+{
+  "queries": [
+    {
+      "id": "m1",
+      "query": "Where is the market equilibrium price found on the supply and demand curves?",
+      "marker": "market equilibrium price",
+      "target": "material"
+    },
+    {
+      "id": "m2",
+      "query": "What does price elasticity of demand measure?",
+      "marker": "price elasticity of demand",
+      "target": "material"
+    },
+    {
+      "id": "m3",
+      "query": "Why does a binding price ceiling create a shortage?",
+      "marker": "binding price ceiling",
+      "target": "material"
+    },
+    {
+      "id": "m4",
+      "query": "Where does a profit-maximizing firm stop producing, comparing marginal revenue and marginal cost?",
+      "marker": "marginal revenue equals marginal cost",
+      "target": "material"
+    },
+    {
+      "id": "m5",
+      "query": "Which market structure is dominated by a few large firms?",
+      "marker": "dominated by a few large firms",
+      "target": "material"
+    },
+    {
+      "id": "m6",
+      "query": "Why is pollution from a factory a classic negative externality?",
+      "marker": "classic negative externality",
+      "target": "material"
+    },
+    {
+      "id": "m7",
+      "query": "Why does insulin have inelastic demand, with patients buying at nearly any price?",
+      "marker": "inelastic demand",
+      "target": "material"
+    },
+    {
+      "id": "t1",
+      "query": "How much of every dollar earned by small businesses is lost due to credit card fees?",
+      "marker": "credit card fees",
+      "target": "transcript"
+    },
+    {
+      "id": "t2",
+      "query": "Do small businesses hate using credit cards?",
+      "marker": "hate using credit cards",
+      "target": "transcript"
+    },
+    {
+      "id": "t3",
+      "query": "Have small businesses begun to process payments using Zell and Venmo?",
+      "marker": "Zell and Venmo",
+      "target": "transcript"
+    },
+    {
+      "id": "t4",
+      "query": "Are credit card fees either lost or passed on to the consumer?",
+      "marker": "passed on to the consumer",
+      "target": "transcript"
+    },
+    {
+      "id": "t5",
+      "query": "Does this payment model work for only 20 or 30 recurring customers?",
+      "marker": "recurring customers",
+      "target": "transcript"
+    },
+    {
+      "id": "t6",
+      "query": "How does this payment model significantly hinder the ability of small businesses to grow?",
+      "marker": "significantly hinders",
+      "target": "transcript"
+    },
+    {
+      "id": "t7",
+      "query": "What does the extra friction of this payment model mean for small businesses?",
+      "marker": "extra friction",
+      "target": "transcript"
+    }
+  ]
+}

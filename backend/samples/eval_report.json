@@ -1,0 +1,496 @@
+{
+  "mode": "real",
+  "chat_model": "meta/llama-3.1-8b-instruct",
+  "retrieval": {
+    "query_count": 14,
+    "hit_at_1": 1.0,
+    "hit_at_5": 1.0,
+    "mrr": 1.0,
+    "per_query": [
+      {
+        "id": "m1",
+        "query": "Where is the market equilibrium price found on the supply and demand curves?",
+        "target": "material",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.4715487263782082
+      },
+      {
+        "id": "m2",
+        "query": "What does price elasticity of demand measure?",
+        "target": "material",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.4558899568992974
+      },
+      {
+        "id": "m3",
+        "query": "Why does a binding price ceiling create a shortage?",
+        "target": "material",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.552604713556292
+      },
+      {
+        "id": "m4",
+        "query": "Where does a profit-maximizing firm stop producing, comparing marginal revenue and marginal cost?",
+        "target": "material",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.4803521328477124
+      },
+      {
+        "id": "m5",
+        "query": "Which market structure is dominated by a few large firms?",
+        "target": "material",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.38941720459016055
+      },
+      {
+        "id": "m6",
+        "query": "Why is pollution from a factory a classic negative externality?",
+        "target": "material",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.510382682794038
+      },
+      {
+        "id": "m7",
+        "query": "Why does insulin have inelastic demand, with patients buying at nearly any price?",
+        "target": "material",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.4754355207830633
+      },
+      {
+        "id": "t1",
+        "query": "How much of every dollar earned by small businesses is lost due to credit card fees?",
+        "target": "transcript",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.6540527657435238
+      },
+      {
+        "id": "t2",
+        "query": "Do small businesses hate using credit cards?",
+        "target": "transcript",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.5860906604439848
+      },
+      {
+        "id": "t3",
+        "query": "Have small businesses begun to process payments using Zell and Venmo?",
+        "target": "transcript",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.6172582114470966
+      },
+      {
+        "id": "t4",
+        "query": "Are credit card fees either lost or passed on to the consumer?",
+        "target": "transcript",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.5469106517683237
+      },
+      {
+        "id": "t5",
+        "query": "Does this payment model work for only 20 or 30 recurring customers?",
+        "target": "transcript",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.5998194984202627
+      },
+      {
+        "id": "t6",
+        "query": "How does this payment model significantly hinder the ability of small businesses to grow?",
+        "target": "transcript",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.6575267965138595
+      },
+      {
+        "id": "t7",
+        "query": "What does the extra friction of this payment model mean for small businesses?",
+        "target": "transcript",
+        "hit_at_1": true,
+        "hit_at_5": true,
+        "reciprocal_rank": 1.0,
+        "top_score": 0.6427453833398028
+      }
+    ]
+  },
+  "groundedness": {
+    "judged_query_count": 5,
+    "unsupported_claim_rate": 0.189873417721519,
+    "parse_error_count": 0,
+    "answers": [
+      {
+        "id": "m1",
+        "answer": "The market equilibrium price is found where the quantity buyers demand exactly equals the quantity sellers supply, and the two curves cross, with no leftover surplus or shortage. [1]",
+        "claims": [
+          {
+            "text": "The market equilibrium price is found where the quantity buyers demand exactly equals the quantity sellers supply, and the two curves cross, with no leftover surplus or shortage.",
+            "supported": true
+          },
+          {
+            "text": "Demand is elastic when a small price increase causes a large drop in quantity purchased, and inelastic when quantity barely responds to price at all.",
+            "supported": true
+          },
+          {
+            "text": "Luxury goods such as vacation travel tend to have elastic demand, since travelers can easily postpone a trip when airfares climb.",
+            "supported": true
+          },
+          {
+            "text": "Insulin, by contrast, has inelastic demand, because patients keep buying it at nearly any price.",
+            "supported": true
+          },
+          {
+            "text": "A seller deciding whether to raise price should first ask how elastic demand is, since price elasticity of demand determines whether a price increase adds or subtracts from total revenue.",
+            "supported": true
+          },
+          {
+            "text": "A binding price ceiling is a legal maximum price set below the equilibrium price, so it creates a shortage because the quantity buyers demand at that price exceeds the quantity sellers are willing to supply.",
+            "supported": true
+          },
+          {
+            "text": "Rent control in many cities is a binding price ceiling: tenants pay less, but landlords supply fewer units, so some renters cannot find housing at all.",
+            "supported": true
+          },
+          {
+            "text": "A price floor set above equilibrium price instead creates a surplus, as with agricultural price supports where the government buys the unsold surplus.",
+            "supported": true
+          },
+          {
+            "text": "A price ceiling set above the equilibrium price, or a price floor set below it, has no effect, since the market can already reach that price on its own.",
+            "supported": true
+          },
+          {
+            "text": "Marginal cost is the added cost of producing one more unit of output, while marginal revenue is the added revenue from selling that unit.",
+            "supported": true
+          },
+          {
+            "text": "A bakery deciding whether to bake one more loaf of bread should compare the cost of the flour and oven time against the price the loaf will fetch; once marginal cost climbs above marginal revenue, baking another loaf destroys profit rather than adding to it.",
+            "supported": true
+          },
+          {
+            "text": "This rule, marginal revenue equals marginal cost, is the single most useful test of whether a firm's output level is efficient.",
+            "supported": true
+          },
+          {
+            "text": "A monopoly is a market with a single seller and no close substitutes, letting the firm set price above marginal cost and earn sustained economic profit.",
+            "supported": true
+          },
+          {
+            "text": "Perfect competition sits at the other extreme: many small firms sell an identical product, none can influence price alone, and price is driven down to marginal cost in the long run.",
+            "supported": true
+          },
+          {
+            "text": "Monopolistic competition falls between the two, with many firms selling similar but differentiated products, like local restaurants, each holding a sliver of pricing power from its own brand.",
+            "supported": true
+          },
+          {
+            "text": "Oligopoly describes a market structure dominated by a few large firms, such as commercial aircraft manufacturers, where each firm's pricing decisions visibly affect its rivals.",
+            "supported": true
+          },
+          {
+            "text": "Pollution from a factory is a classic negative externality: the factory and its customers do not pay for the smoke that nearby residents breathe, which drives production above the socially optimal level.",
+            "supported": true
+          },
+          {
+            "text": "Vaccination is a positive externality, since a vaccinated person also protects others from catching the disease, so unregulated markets under-provide vaccines relative to the optimal level.",
+            "supported": true
+          },
+          {
+            "text": "Governments respond to a negative externality with taxes or regulation and to a positive externality with subsidies, aiming to align private incentives with the deadweight loss that externalities otherwise create for society.",
+            "supported": true
+          },
+          {
+            "text": "For every dollar earned by small businesses, nearly 3.5%, nearly 3.5% to 4% company is lost due to credit card fees or either passed on to the consumer, or either passed on to the consumer, passed on to the consumer.",
+            "supported": false
+          },
+          {
+            "text": "Small businesses hate using credit cards.",
+            "supported": false
+          },
+          {
+            "text": "Small businesses hate using credit cards, which is no wonder that a lot of them have begun to process payments with Lell and Venmo to begin to process payments using Zell and Venmo.",
+            "supported": false
+          },
+          {
+            "text": "This doesn't work.",
+            "supported": false
+          },
+          {
+            "text": "This payment model significantly hinders the ability for small businesses to grow.",
+            "supported": false
+          },
+          {
+            "text": "And while this may work for 20 or 30 customers, 20 or 30 recurring customers.",
+            "supported": false
+          },
+          {
+            "text": "This extra friction of the extra that",
+            "supported": false
+          }
+        ],
+        "parse_error": false
+      },
+      {
+        "id": "m2",
+        "answer": "Price elasticity of demand measures how much the quantity demanded of a good changes when its price changes, expressed as a percentage change in quantity divided by the percentage change in price. [1]",
+        "claims": [
+          {
+            "text": "Price elasticity of demand measures how much the quantity demanded of a good changes when its price changes, expressed as a percentage change in quantity divided by the percentage change in price.",
+            "supported": true
+          },
+          {
+            "text": "Demand is elastic when a small price increase causes a large drop in quantity purchased, and inelastic when quantity barely responds to price at all.",
+            "supported": true
+          },
+          {
+            "text": "Luxury goods such as vacation travel tend to have elastic demand, since travelers can easily postpone a trip when airfares climb.",
+            "supported": false
+          },
+          {
+            "text": "Insulin, by contrast, has inelastic demand, because patients keep buying it at nearly any price.",
+            "supported": true
+          },
+          {
+            "text": "A seller deciding whether to raise price should first ask how elastic demand is, since price elasticity of demand determines whether a price increase adds or subtracts from total revenue.",
+            "supported": true
+          },
+          {
+            "text": "For every dollar earned by small businesses, nearly 3.5%, nearly 3.5% to 4% company is lost due to credit card fees or either passed on to the consumer, or either passed on to the consumer, passed on to the consumer.",
+            "supported": false
+          },
+          {
+            "text": "Small businesses hate using credit cards.",
+            "supported": false
+          },
+          {
+            "text": "Small businesses hate using credit cards, which is no wonder that a lot of them have begun to process payments with Lell and Venmo to begin to process payments using Zell and Venmo.",
+            "supported": false
+          },
+          {
+            "text": "This payment model significantly hinders the ability for small businesses to grow.",
+            "supported": false
+          }
+        ],
+        "parse_error": false
+      },
+      {
+        "id": "m3",
+        "answer": "A binding price ceiling creates a shortage because the quantity buyers demand at that price exceeds the quantity sellers are willing to supply [1].",
+        "claims": [
+          {
+            "text": "A binding price ceiling creates a shortage because the quantity buyers demand at that price exceeds the quantity sellers are willing to supply",
+            "supported": true
+          },
+          {
+            "text": "A price floor set above equilibrium price instead creates a surplus",
+            "supported": true
+          },
+          {
+            "text": "A price ceiling set above the equilibrium price, or a price floor set below it, has no effect",
+            "supported": true
+          },
+          {
+            "text": "A profit-maximizing firm keeps producing extra units as long as each one adds more to revenue than it adds to cost",
+            "supported": true
+          },
+          {
+            "text": "Marginal cost is the added cost of producing one more unit of output",
+            "supported": true
+          },
+          {
+            "text": "Marginal revenue is the added revenue from selling that unit",
+            "supported": true
+          },
+          {
+            "text": "A monopoly is a market with a single seller and no close substitutes",
+            "supported": true
+          },
+          {
+            "text": "Perfect competition sits at the other extreme: many small firms sell an identical product",
+            "supported": true
+          },
+          {
+            "text": "Price is driven down to marginal cost in the long run in perfect competition",
+            "supported": true
+          },
+          {
+            "text": "Monopolistic competition falls between the two, with many firms selling similar but differentiated products",
+            "supported": true
+          },
+          {
+            "text": "Oligopoly describes a market structure dominated by a few large firms",
+            "supported": true
+          },
+          {
+            "text": "Pollution from a factory is a classic negative externality",
+            "supported": true
+          },
+          {
+            "text": "Vaccination is a positive externality",
+            "supported": true
+          },
+          {
+            "text": "The demand curve slopes downward",
+            "supported": true
+          },
+          {
+            "text": "The supply curve slopes upward",
+            "supported": true
+          },
+          {
+            "text": "Market equilibrium price is the price where the quantity buyers demand exactly equals the quantity sellers supply",
+            "supported": true
+          },
+          {
+            "text": "Price elasticity of demand measures how much the quantity demanded of a good changes when its price changes",
+            "supported": true
+          },
+          {
+            "text": "Demand is elastic when a small price increase causes a large drop in quantity purchased",
+            "supported": true
+          },
+          {
+            "text": "Demand is inelastic when quantity barely responds to price at all",
+            "supported": true
+          },
+          {
+            "text": "A seller deciding whether to raise price should first ask how elastic demand is",
+            "supported": true
+          },
+          {
+            "text": "For every dollar earned by small businesses, nearly 3.5%, nearly 3.5% to 4% company is lost due to credit card fees",
+            "supported": true
+          },
+          {
+            "text": "Small businesses hate using credit cards",
+            "supported": true
+          },
+          {
+            "text": "A binding price ceiling creates a shortage because the quantity buyers demand at that price exceeds the quantity sellers are willing to supply [1].",
+            "supported": false
+          }
+        ],
+        "parse_error": false
+      },
+      {
+        "id": "m4",
+        "answer": "A profit-maximizing firm stops producing exactly where marginal revenue equals marginal cost. [1]",
+        "claims": [
+          {
+            "text": "A profit-maximizing firm stops producing exactly where marginal revenue equals marginal cost.",
+            "supported": true
+          },
+          {
+            "text": "A binding price ceiling is a legal maximum price set below the equilibrium price.",
+            "supported": true
+          },
+          {
+            "text": "A price floor set above equilibrium price instead creates a surplus.",
+            "supported": true
+          },
+          {
+            "text": "A price ceiling set above the equilibrium price, or a price floor set below it, has no effect.",
+            "supported": true
+          },
+          {
+            "text": "Marginal cost is the added cost of producing one more unit of output.",
+            "supported": true
+          },
+          {
+            "text": "Marginal revenue is the added revenue from selling that unit.",
+            "supported": true
+          },
+          {
+            "text": "A monopoly is a market with a single seller and no close substitutes.",
+            "supported": true
+          },
+          {
+            "text": "Price is driven down to marginal cost in the long run in a perfectly competitive market.",
+            "supported": true
+          },
+          {
+            "text": "The demand curve slopes downward.",
+            "supported": true
+          },
+          {
+            "text": "The supply curve slopes upward.",
+            "supported": true
+          },
+          {
+            "text": "Market equilibrium price is the price where the quantity buyers demand exactly equals the quantity sellers supply.",
+            "supported": true
+          },
+          {
+            "text": "Price elasticity of demand measures how much the quantity demanded of a good changes when its price changes.",
+            "supported": true
+          },
+          {
+            "text": "Demand is elastic when a small price increase causes a large drop in quantity purchased.",
+            "supported": true
+          },
+          {
+            "text": "Insulin has inelastic demand, because patients keep buying it at nearly any price.",
+            "supported": true
+          },
+          {
+            "text": "For every dollar earned by small businesses, nearly 3.5% is lost due to credit card fees.",
+            "supported": true
+          },
+          {
+            "text": "Small businesses hate using credit cards.",
+            "supported": true
+          },
+          {
+            "text": "A payment model significantly hinders the ability for small businesses to grow.",
+            "supported": true
+          }
+        ],
+        "parse_error": false
+      },
+      {
+        "id": "m5",
+        "answer": "Oligopoly [1].",
+        "claims": [
+          {
+            "text": "Oligopoly describes a market structure dominated by a few large firms",
+            "supported": true
+          },
+          {
+            "text": "Oligopoly describes a market structure with a single seller",
+            "supported": false
+          },
+          {
+            "text": "Oligopoly describes a market structure with no close substitutes",
+            "supported": false
+          },
+          {
+            "text": "Oligopoly describes a market structure where each firm's pricing decisions visibly affect its rivals",
+            "supported": true
+          }
+        ],
+        "parse_error": false
+      }
+    ]
+  }
+}
