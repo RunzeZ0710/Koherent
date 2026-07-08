@@ -7,9 +7,10 @@ from sqlalchemy.orm import Session
 from koherent.ai.base import AIClient
 from koherent.config import settings
 from koherent.deps import get_ai_client, get_current_student, get_db
-from koherent.models import Lecture, Note, Student
+from koherent.models import Note, Student
 from koherent.pipeline.process import NoAudioError, process_lecture
 from koherent.pipeline.report import is_anomaly
+from koherent.routes.access import load_lecture_for_student
 from koherent.schemas import LectureReport, NoteReportItem, ProcessResult
 
 router = APIRouter(prefix="/lectures", tags=["processing"])
@@ -22,6 +23,7 @@ def process(
     db: Session = Depends(get_db),
     ai: AIClient = Depends(get_ai_client),
 ) -> ProcessResult:
+    load_lecture_for_student(lecture_id, current, db)
     try:
         summary = process_lecture(lecture_id, db, ai)
     except LookupError:
@@ -42,10 +44,13 @@ def report(
     current: Student = Depends(get_current_student),
     db: Session = Depends(get_db),
 ) -> LectureReport:
-    if db.get(Lecture, lecture_id) is None:
-        raise HTTPException(status_code=404, detail="Lecture not found")
+    load_lecture_for_student(lecture_id, current, db)
 
-    notes = list(db.scalars(select(Note).where(Note.lecture_id == lecture_id)))
+    notes = list(
+        db.scalars(
+            select(Note).where(Note.lecture_id == lecture_id, Note.student_id == current.id)
+        )
+    )
     items: list[NoteReportItem] = []
     for note in notes:
         alignment = note.alignment

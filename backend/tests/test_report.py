@@ -80,3 +80,69 @@ def test_report_flags_everything_when_threshold_is_high(client, monkeypatch):
         assert all(item["anomaly"] is True for item in report["items"])
     finally:
         app.dependency_overrides.pop(get_ai_client, None)
+
+
+def _seed_lecture_with_notes_and_audio(client) -> str:
+    _join(client)
+    lecture = client.post("/lectures", json={"title": "Supply & Demand"}).json()
+    lid = lecture["id"]
+    client.post(
+        f"/lectures/{lid}/notes",
+        json={"content": "marginal revenue equals marginal cost", "client_timestamp_ms": 1000},
+    )
+    client.post(
+        f"/lectures/{lid}/notes",
+        json={"content": "the mitochondria is the powerhouse of the cell", "client_timestamp_ms": 2000},
+    )
+    client.post(
+        f"/lectures/{lid}/audio",
+        files={"file": ("a.webm", b"\x00\x00\x00", "audio/webm")},
+    )
+    return lid
+
+
+def test_report_rejects_student_from_another_class(client):
+    app.dependency_overrides[get_ai_client] = lambda: FakeAIClient()
+    try:
+        lid = _seed_lecture_with_notes_and_audio(client)
+        client.post(f"/lectures/{lid}/process")
+        other = client.post("/classes", json={"name": "Bio 200"}).json()
+        client.post(
+            "/classes/join",
+            json={"join_code": other["join_code"], "display_name": "Mallory"},
+        )
+        assert client.get(f"/lectures/{lid}/report").status_code == 403
+    finally:
+        app.dependency_overrides.pop(get_ai_client, None)
+
+
+def test_report_only_returns_callers_notes(client):
+    app.dependency_overrides[get_ai_client] = lambda: FakeAIClient()
+    try:
+        klass = client.post("/classes", json={"name": "Econ 101"}).json()
+        client.post(
+            "/classes/join",
+            json={"join_code": klass["join_code"], "display_name": "Alice"},
+        )
+        lecture = client.post("/lectures", json={"title": "L1"}).json()
+        lid = lecture["id"]
+        client.post(
+            f"/lectures/{lid}/notes",
+            json={"content": "alice note", "client_timestamp_ms": 1000},
+        )
+        client.post(f"/lectures/{lid}/audio", files={"file": ("a.webm", b"\x00", "audio/webm")})
+        # Bob joins the same class and adds his own note
+        client.post(
+            "/classes/join",
+            json={"join_code": klass["join_code"], "display_name": "Bob"},
+        )
+        client.post(
+            f"/lectures/{lid}/notes",
+            json={"content": "bob note", "client_timestamp_ms": 2000},
+        )
+        client.post(f"/lectures/{lid}/process")
+        report = client.get(f"/lectures/{lid}/report").json()
+        contents = [item["note_content"] for item in report["items"]]
+        assert contents == ["bob note"]  # Bob's session sees only Bob's notes
+    finally:
+        app.dependency_overrides.pop(get_ai_client, None)

@@ -65,3 +65,22 @@ def test_process_without_audio_returns_400(client):
         assert resp.status_code == 400
     finally:
         app.dependency_overrides.pop(get_ai_client, None)
+
+
+def _join_other_class(client) -> None:
+    other = client.post("/classes", json={"name": "Bio 200"}).json()
+    client.post(
+        "/classes/join",
+        json={"join_code": other["join_code"], "display_name": "Mallory"},
+    )
+
+
+def test_process_rejects_student_from_another_class(client):
+    app.dependency_overrides[get_ai_client] = lambda: FakeAIClient()
+    try:
+        lid = _seed_lecture_with_notes_and_audio(client)
+        _join_other_class(client)  # switches the session cookie to the other class
+        resp = client.post(f"/lectures/{lid}/process")
+        assert resp.status_code == 403
+    finally:
+        app.dependency_overrides.pop(get_ai_client, None)
