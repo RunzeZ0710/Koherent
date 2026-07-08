@@ -37,6 +37,9 @@ class Class(Base):
 
     students: Mapped[list["Student"]] = relationship(back_populates="class_", cascade="all, delete-orphan")
     lectures: Mapped[list["Lecture"]] = relationship(back_populates="class_", cascade="all, delete-orphan")
+    materials: Mapped[list["Material"]] = relationship(
+        back_populates="class_", cascade="all, delete-orphan"
+    )
 
 
 class Student(Base):
@@ -78,6 +81,9 @@ class Lecture(Base):
         back_populates="lecture", cascade="all, delete-orphan"
     )
     transcript: Mapped["Transcript | None"] = relationship(
+        back_populates="lecture", cascade="all, delete-orphan", uselist=False
+    )
+    summary: Mapped["LectureSummary | None"] = relationship(
         back_populates="lecture", cascade="all, delete-orphan", uselist=False
     )
 
@@ -194,3 +200,64 @@ class NoteAlignment(Base):
 
     note: Mapped[Note] = relationship(back_populates="alignment")
     chunk: Mapped[TranscriptChunk] = relationship()
+
+
+class Material(Base):
+    __tablename__ = "materials"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
+    class_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("classes.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    filename: Mapped[str] = mapped_column(String(255), nullable=False)
+    media_type: Mapped[str] = mapped_column(String(100), nullable=False)
+    size_bytes: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    extracted_chars: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    class_: Mapped[Class] = relationship(back_populates="materials")
+    chunks: Mapped[list["MaterialChunk"]] = relationship(
+        back_populates="material", cascade="all, delete-orphan"
+    )
+
+
+class MaterialChunk(Base):
+    __tablename__ = "material_chunks"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
+    material_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("materials.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    chunk_index: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    embedding: Mapped[list[float]] = mapped_column(ARRAY(Float), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    material: Mapped[Material] = relationship(back_populates="chunks")
+
+
+class LectureSummary(Base):
+    __tablename__ = "lecture_summaries"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
+    lecture_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("lectures.id", ondelete="CASCADE"),
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    model: Mapped[str] = mapped_column(String(100), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    lecture: Mapped[Lecture] = relationship(back_populates="summary")
