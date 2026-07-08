@@ -1,3 +1,5 @@
+import json
+
 from koherent.ai.fake import FakeAIClient
 
 
@@ -49,3 +51,28 @@ def test_transcribe_can_be_overridden():
     result = ai.transcribe("ignored.webm")
     assert result.text == "custom lecture text"
     assert [w.word for w in result.words] == ["custom", "lecture", "text"]
+
+
+def test_generate_is_deterministic():
+    fake = FakeAIClient()
+    a = fake.generate("system", "user prompt")
+    b = fake.generate("system", "user prompt")
+    assert a == b
+    assert a.startswith("[fake:")
+
+
+def test_generate_varies_with_prompt():
+    fake = FakeAIClient()
+    assert fake.generate("system", "one") != fake.generate("system", "two")
+
+
+def test_generate_returns_json_for_judge_prompts():
+    fake = FakeAIClient()
+    out = fake.generate("You are a judge. Return ONLY JSON.", "answer and context")
+    parsed = json.loads(out)
+    assert parsed["claims"][0]["verdict"] in ("supported", "unsupported")
+
+
+def test_embed_query_matches_passage_embedding():
+    fake = FakeAIClient()
+    assert fake.embed_query("supply and demand") == fake.embed(["supply and demand"])[0]

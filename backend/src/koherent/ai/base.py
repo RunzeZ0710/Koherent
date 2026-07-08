@@ -41,3 +41,15 @@ class AIClient(Protocol):
     def embed(self, texts: list[str]) -> list[list[float]]:
         """Return one embedding vector per input text, in the same order."""
         ...
+
+    def embed_query(self, text: str) -> list[float]:
+        """Return the embedding for a retrieval query.
+
+        Asymmetric-embedding models (nv-embedqa) encode queries and passages
+        differently; symmetric fakes may return the same vector as `embed`.
+        """
+        ...
+
+    def generate(self, system_prompt: str, user_prompt: str) -> str:
+        """Return the LLM completion for a system+user prompt pair."""
+        ...

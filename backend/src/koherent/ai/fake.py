@@ -40,3 +40,15 @@ class FakeAIClient:
             bucket = int(hashlib.md5(word.encode()).hexdigest(), 16) % self.DIM
             vec[bucket] += 1.0
         return vec
+
+    def embed_query(self, text: str) -> list[float]:
+        return self._embed_one(text)
+
+    def generate(self, system_prompt: str, user_prompt: str) -> str:
+        # Judge prompts (see pipeline/judge.py) need parseable JSON to keep the
+        # eval harness runnable offline; everything else gets a deterministic
+        # tag so tests can assert both stability and prompt-sensitivity.
+        if "Return ONLY JSON" in system_prompt:
+            return '{"claims": [{"text": "fake claim", "verdict": "supported"}]}'
+        digest = hashlib.md5(f"{system_prompt}\n\n{user_prompt}".encode()).hexdigest()[:8]
+        return f"[fake:{digest}] {user_prompt[:160]}"
