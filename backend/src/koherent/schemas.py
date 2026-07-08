@@ -98,3 +98,54 @@ class LectureReport(BaseModel):
     lecture_id: uuid.UUID
     threshold: float
     items: list[NoteReportItem]
+
+
+class MaterialRead(BaseModel):
+    id: uuid.UUID
+    class_id: uuid.UUID
+    filename: str
+    media_type: str
+    size_bytes: int
+    chunk_count: int
+    created_at: datetime
+
+
+class MaterialList(BaseModel):
+    items: list[MaterialRead]
+
+
+class Citation(BaseModel):
+    source: str
+    chunk_id: uuid.UUID
+    label: str
+    content: str
+    score: float
+
+
+class AskRequest(BaseModel):
+    question: str = Field(min_length=1, max_length=2000)
+
+
+class ExplainRequest(BaseModel):
+    concept: str = Field(min_length=1, max_length=200)
+
+
+class GeneratedAnswer(BaseModel):
+    answer: str
+    citations: list[Citation]
+    truncated: bool
+    model: str
+
+
+class LectureSummaryRead(BaseModel):
+    lecture_id: uuid.UUID
+    content: str
+    model: str
+    created_at: datetime
+
+
+class ReviewResponse(BaseModel):
+    lecture_id: uuid.UUID
+    content: str
+    weak_note_count: int
+    model: str
