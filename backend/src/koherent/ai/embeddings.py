@@ -3,8 +3,8 @@
 This adapter turns texts into vectors. NIM exposes an OpenAI-compatible
 embeddings endpoint, so we use the OpenAI SDK pointed at NVIDIA's base URL.
 The query/passage asymmetry of embedqa models is handled with `input_type`;
-we embed everything as "passage" for the MVP (documented refinement: embed
-notes as "query"). All NVIDIA specifics are contained here.
+queries are now embedded as "query" via the per-call override. All NVIDIA
+specifics are contained here.
 """
 
 from openai import OpenAI
@@ -34,20 +34,23 @@ class NIMEmbedder:
         api_key: str | None = None,
         model: str = _EMBED_MODEL,
         input_type: str = "passage",
+        client=None,
     ) -> None:
-        key = api_key or settings.nvidia_api_key
-        if not key:
-            raise ValueError("NVIDIA API key is required (set NVIDIA_API_KEY).")
-        self._client = OpenAI(base_url=_NIM_BASE_URL, api_key=key)
+        if client is None:
+            key = api_key or settings.nvidia_api_key
+            if not key:
+                raise ValueError("NVIDIA API key is required (set NVIDIA_API_KEY).")
+            client = OpenAI(base_url=_NIM_BASE_URL, api_key=key)
+        self._client = client
         self._model = model
         self._input_type = input_type
 
-    def embed(self, texts: list[str]) -> list[list[float]]:
+    def embed(self, texts: list[str], *, input_type: str | None = None) -> list[list[float]]:
         if not texts:
             return []
         response = self._client.embeddings.create(
             model=self._model,
             input=texts,
-            extra_body={"input_type": self._input_type, "truncate": "END"},
+            extra_body={"input_type": input_type or self._input_type, "truncate": "END"},
         )
         return _response_to_vectors(response)
