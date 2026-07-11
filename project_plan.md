@@ -12,7 +12,7 @@ Students take notes during lectures, but their notes often don't capture what th
 
 An AI-native notetaking app that:
 - Lets students take notes in-app during lecture
-- Records lecture audio (one student per session)
+- Records lecture audio (the professor records each lecture)
 - Compares student notes against the lecture as ground truth
 - Gives each student personalized feedback on what they missed
 - Gives the professor an aggregated dashboard showing class-wide patterns — especially **clusters of shared misconceptions** ("where the class went off the rails together")
@@ -27,7 +27,7 @@ The off-the-rails clustering is the novel insight: it's not "did students get it
 - Web app (no native mobile)
 - Single class, 10-30 students
 - Typed notes only
-- One student per lecture records audio in-app
+- The professor records the lecture audio in-app
 - Post-lecture processing (not real-time)
 - Per-student feedback report after each lecture
 - Aggregated professor dashboard after each lecture
@@ -47,16 +47,16 @@ The off-the-rails clustering is the novel insight: it's not "did students get it
 ### Student
 1. Join class with a code, enter name
 2. Take typed notes in-app during lecture (auto-timestamped as they type)
-3. One designated student hits "record lecture"; audio uploads on stop
-4. ~2-5 minutes after lecture ends, gets a personal report:
+3. ~2-5 minutes after lecture ends, gets a personal report:
    - Concepts captured (8/10)
    - Notes flagged as potentially wrong, with corrections sourced from the lecture
    - Suggested study items
 
 ### Professor
 1. **One-time setup:** create class, share join code with students, optionally upload syllabus or key concepts list
-2. **After each lecture:** dashboard email or in-app notification
-3. **Dashboard shows:**
+2. **During each lecture:** record the lecture audio in-app; on stop, audio uploads and post-lecture processing begins
+3. **After each lecture:** dashboard email or in-app notification
+4. **Dashboard shows:**
    - **What landed** — concepts captured by >80% of class
    - **What didn't** — concepts captured by <30%
    - **Off the rails** — clusters of similar misconceptions: "9 students wrote X causes Y, but you said Y causes X"
@@ -165,20 +165,20 @@ The pitch: "deployable to a small school for the price of one $249 device per cl
 ### Week 1: Foundation
 - [ ] Sign up for NVIDIA Developer Program at build.nvidia.com
 - [ ] Get NIM API key, test chat/embedding/ASR endpoints
-- [ ] Scaffold Next.js + FastAPI + Postgres
-- [ ] Build auth, class creation, join codes
-- [ ] Build typed note-taking UI (auto-timestamped)
-- [ ] Build audio upload + storage
+- [x] Scaffold Next.js + FastAPI + Postgres
+- [x] Build auth, class creation, join codes
+- [x] Build typed note-taking UI (auto-timestamped)
+- [x] Build audio upload + storage
 - [ ] **Goal:** upload a 5-min audio clip and typed notes, persist to DB
 
 ### Week 2: The Pipeline
-- [ ] Transcription pipeline (Nemotron Speech or Riva via NIM)
-- [ ] Transcript chunking (~30s fixed chunks initially)
-- [ ] Embedding pipeline (notes and transcript chunks)
-- [ ] Note-to-transcript alignment via cosine similarity
+- [x] Transcription pipeline (Nemotron Speech or Riva via NIM)
+- [x] Transcript chunking (~30s fixed chunks initially)
+- [x] Embedding pipeline (notes and transcript chunks)
+- [x] Note-to-transcript alignment via cosine similarity
 - [ ] LLM-based claim extraction from notes
 - [ ] LLM-as-judge: "did this note capture this concept correctly?"
-- [ ] Per-student feedback report generation
+- [x] Per-student feedback report generation
 - [ ] **Goal:** one student's full flow works end-to-end on real data
 
 ### Week 3: The Dashboard
@@ -245,7 +245,7 @@ print(len(e.data[0].embedding))
 2. **Transcript chunking strategy** — Start with fixed 30s chunks. If alignment is too noisy, refine to topic-shift detection.
 3. **"Off the rails" threshold** — Start with 3+ students with similar misconceptions; make tunable.
 4. **Model sizes** — V1: Llama 3.1 70B hosted. V2: Llama 3.1 8B or smaller, quantized to fit Jetson memory budget.
-5. **Recording consent flow** — One student designates themselves the recorder; visible indicator in-app when recording is active.
+5. **Recording ownership** — The professor records each lecture (better reliability and audio quality, and the professor is the primary beneficiary: the recording is the prof's feedback loop on what landed). Students only take notes. Visible in-app indicator when recording is active. Professor in-app authentication is deferred — V1 can begin with the professor's audio supplied out-of-band.
 
 ---
 
